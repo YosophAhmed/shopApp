@@ -51,6 +51,11 @@ class LoginScreen extends StatelessWidget {
                           height: 30.0,
                         ),
                         TextFormField(
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Enter vaild email';
+                            }
+                          },
                           controller: emailController,
                           keyboardType: TextInputType.emailAddress,
                           decoration: const InputDecoration(
@@ -65,17 +70,33 @@ class LoginScreen extends StatelessWidget {
                           height: 15.0,
                         ),
                         TextFormField(
+                          onFieldSubmitted: (value) {
+                            if (formKey.currentState!.validate()) {
+                              LoginCubit.get(context).userLogin(
+                                email: emailController.text,
+                                password: passwordController.text,
+                              );
+                            }
+                          },
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Enter password';
+                            }
+                          },
                           controller: passwordController,
                           keyboardType: TextInputType.visiblePassword,
+                          obscureText: LoginCubit.get(context).isPassword,
                           decoration: InputDecoration(
                             labelText: 'password',
                             prefixIcon: const Icon(
                               Icons.lock_outline,
                             ),
                             suffixIcon: IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                  LoginCubit.get(context).changeSuffix();
+                              },
                               icon: Icon(
-                                Icons.visibility_outlined,
+                                LoginCubit.get(context).suffix,
                               ),
                             ),
                             border: const OutlineInputBorder(),
@@ -95,9 +116,12 @@ class LoginScreen extends StatelessWidget {
                                   ),
                                   child: TextButton(
                                     onPressed: () {
-                                      LoginCubit.get(context).userLogin(
+                                      if (formKey.currentState!.validate()) {
+                                        LoginCubit.get(context).userLogin(
                                           email: emailController.text,
-                                          password: passwordController.text);
+                                          password: passwordController.text,
+                                        );
+                                      }
                                     },
                                     child: const Text(
                                       'Login',
