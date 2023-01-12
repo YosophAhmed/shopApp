@@ -35,10 +35,13 @@ class LoginCubit extends Cubit<LoginStates> {
         'password': password,
       },
     ).then((value) {
+      
+      print(value?.data);
       emit(
         SuccessLoginState(),
       );
     }).catchError((error) {
+      print(error.toString());
       emit(
         ErrorLoginState(
           error.toString(),

@@ -5,9 +5,11 @@ import 'package:shop_app/screens/login/login_screen.dart';
 import 'package:shop_app/screens/onboarding/onboarding_screen.dart';
 import 'bloc/bloc_observer.dart';
 import 'constants/colors.dart';
+import 'network/remote/dio_helper.dart';
 
 void main() {
   Bloc.observer = MyBlocObserver();
+  DioHelper.init();
   runApp(
     const ShopApp(),
   );
