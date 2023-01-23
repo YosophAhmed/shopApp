@@ -1,6 +1,7 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shop_app/constants/colors.dart';
 import 'package:shop_app/screens/Register/register_screen.dart';
 import 'package:shop_app/screens/login/cubit/cubit.dart';
@@ -19,7 +20,31 @@ class LoginScreen extends StatelessWidget {
     return BlocProvider(
       create: (BuildContext context) => LoginCubit(),
       child: BlocConsumer<LoginCubit, LoginStates>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          if (state is SuccessLoginState) {
+            if (state.loginModel.status) {
+              Fluttertoast.showToast(
+                msg: state.loginModel.message.toString(),
+                toastLength: Toast.LENGTH_LONG,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIosWeb: 5,
+                backgroundColor: Colors.green,
+                textColor: Colors.white,
+                fontSize: 16,
+              );
+            } else {
+              Fluttertoast.showToast(
+                msg: state.loginModel.message.toString(),
+                toastLength: Toast.LENGTH_LONG,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIosWeb: 5,
+                backgroundColor: Colors.red,
+                textColor: Colors.white,
+                fontSize: 16,
+              );
+            }
+          }
+        },
         builder: (context, state) {
           return Scaffold(
             backgroundColor: Colors.white,
@@ -93,7 +118,7 @@ class LoginScreen extends StatelessWidget {
                             ),
                             suffixIcon: IconButton(
                               onPressed: () {
-                                  LoginCubit.get(context).changeSuffix();
+                                LoginCubit.get(context).changeSuffix();
                               },
                               icon: Icon(
                                 LoginCubit.get(context).suffix,

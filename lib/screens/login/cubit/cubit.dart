@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shop_app/models/login_model.dart';
 import 'package:shop_app/network/remote/dio_helper.dart';
 import 'package:shop_app/screens/login/cubit/states.dart';
 import '../../../network/end_points.dart';
@@ -8,9 +9,13 @@ class LoginCubit extends Cubit<LoginStates> {
   IconData suffix = Icons.visibility_outlined;
   bool isPassword = false;
 
-  LoginCubit() : super(InitialLoginState());
+  late LoginModel loginModel;
 
   static LoginCubit get(context) => BlocProvider.of(context);
+
+
+  LoginCubit() : super(InitialLoginState());
+
 
   void changeSuffix() {
     isPassword = !isPassword;
@@ -35,13 +40,13 @@ class LoginCubit extends Cubit<LoginStates> {
         'password': password,
       },
     ).then((value) {
-      
-      print(value?.data);
+      loginModel = LoginModel.fromJson(value!.data);
       emit(
-        SuccessLoginState(),
+        SuccessLoginState(
+          loginModel: loginModel,
+        ),
       );
     }).catchError((error) {
-      print(error.toString());
       emit(
         ErrorLoginState(
           error.toString(),
