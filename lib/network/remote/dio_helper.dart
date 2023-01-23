@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 class DioHelper {
   static late Dio dio;
 
-  static init() {
+  static init() async {
     dio = Dio(
       BaseOptions(
         baseUrl: 'https://student.valuxapps.com/api/',

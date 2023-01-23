@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/network/local/cache_helper.dart';
 import 'package:shop_app/screens/login/login_screen.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -36,6 +37,17 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     ),
   ];
 
+  void submit() {
+    CacheHelper.saveData(key: 'onBoarding', value: true).then((value) {
+      if (value) {
+        Navigator.pushReplacementNamed(
+          context,
+          LoginScreen.routeName,
+        );
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,11 +56,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         actions: [
           TextButton(
             onPressed: () {
-              Navigator.pushNamedAndRemoveUntil(
-                context,
-                LoginScreen.routeName,
-                (route) => false,
-              );
+              submit();
             },
             child: const Text(
               'SKIP',
@@ -105,11 +113,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 FloatingActionButton(
                   onPressed: () {
                     if (isLast) {
-                      Navigator.pushNamedAndRemoveUntil(
-                        context,
-                        LoginScreen.routeName,
-                        (route) => false,
-                      );
+                      submit();
                     } else {
                       boardController.nextPage(
                         duration: const Duration(
