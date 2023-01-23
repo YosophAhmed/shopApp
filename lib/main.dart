@@ -1,10 +1,11 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:shop_app/network/local/cache_helper.dart';
-import 'package:shop_app/screens/Home/home_screen.dart';
+import 'package:shop_app/screens/home_screen.dart';
 import 'package:shop_app/screens/Register/register_screen.dart';
 import 'package:shop_app/screens/login/login_screen.dart';
 import 'package:shop_app/screens/onboarding/onboarding_screen.dart';
+import 'package:shop_app/screens/search_screen.dart';
 import 'bloc/bloc_observer.dart';
 import 'constants/colors.dart';
 import 'network/remote/dio_helper.dart';
@@ -51,11 +52,12 @@ class ShopApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         appBarTheme: const AppBarTheme(
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.transparent,
           elevation: 0.0,
         ),
         primarySwatch: defaultColor,
         backgroundColor: Colors.white,
+        fontFamily: 'Poppins',
       ),
       initialRoute: initialRoute,
       routes: {
@@ -63,6 +65,7 @@ class ShopApp extends StatelessWidget {
         LoginScreen.routeName: (context) => LoginScreen(),
         RegisterScreen.routeName: (context) => const RegisterScreen(),
         HomeScreen.routeName: (context) => const HomeScreen(),
+        SearchScreen.routeName: (context) => const SearchScreen(),
       },
     );
   }
