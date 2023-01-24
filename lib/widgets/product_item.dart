@@ -1,80 +1,14 @@
-import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shop_app/app_cubit/app_states.dart';
-import 'package:shop_app/models/get_favorites_model.dart';
 
 import '../app_cubit/app_cubit.dart';
 import '../constants/colors.dart';
+import '../models/home_model.dart';
+import 'favourite_icon.dart';
 
+class ProductItem extends StatelessWidget {
+  final ProductsModel model;
 
-class FavouritesScreen extends StatelessWidget {
-  const FavouritesScreen({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    var cubit = AppCubit.get(context);
-
-    return BlocConsumer<AppCubit, AppState>(
-      listener: (context, state) {},
-      builder: (context, state) {
-        return ConditionalBuilder(
-          condition: cubit.getFavoritesModel != null,
-          builder: (BuildContext context) {
-            return FavoriteBuilder(
-              model: cubit.getFavoritesModel!,
-            );
-          },
-          fallback: (BuildContext context) {
-            return const Center(
-              child: Text(
-                'No favorites',
-                style: TextStyle(
-                  fontSize: 32,
-                  color: defaultColor,
-                ),
-              ),
-            );
-          },
-        );
-      },
-    );
-  }
-}
-
-class FavoriteBuilder extends StatelessWidget {
-  final GetFavoritesModel model;
-
-  const FavoriteBuilder({
-    Key? key,
-    required this.model,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Colors.grey[300],
-      child: GridView.count(
-        physics: const BouncingScrollPhysics(),
-        crossAxisCount: 2,
-        crossAxisSpacing: 1.5,
-        mainAxisSpacing: 1.5,
-        childAspectRatio: 1 / 1.51,
-        children: List.generate(
-          model.data.data.length,
-          (index) => FavoriteItem(
-            model: model.data.data[index].product,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class FavoriteItem extends StatelessWidget {
-  final Product model;
-
-  const FavoriteItem({
+  const ProductItem({
     Key? key,
     required this.model,
   }) : super(key: key);
@@ -90,7 +24,7 @@ class FavoriteItem extends StatelessWidget {
             alignment: AlignmentDirectional.bottomStart,
             children: [
               Image.network(
-                model.image!,
+                model.image,
                 width: double.infinity,
                 height: 200,
               ),
@@ -162,22 +96,3 @@ class FavoriteItem extends StatelessWidget {
     );
   }
 }
-
-Widget favouriteIcon({
-  required Product model,
-  required BuildContext context,
-}) {
-  return ConditionalBuilder(
-    condition: AppCubit.get(context).favourites[model.id]!,
-    builder: (context) => const Icon(
-      Icons.favorite,
-      color: Colors.red,
-      size: 24,
-    ),
-    fallback: (context) => const Icon(
-      Icons.favorite_border,
-      size: 24,
-    ),
-  );
-}
-

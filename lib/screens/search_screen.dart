@@ -16,7 +16,7 @@ class SearchScreen extends StatelessWidget {
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 38,
-            color: Colors.black,
+            color: defaultColor,
           ),
           textAlign: TextAlign.center,
         ),

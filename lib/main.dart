@@ -18,6 +18,7 @@ void main() async {
 
   bool? onBoarding = CacheHelper.getData(key: 'onBoarding');
   String? token = CacheHelper.getData(key: 'token');
+  debugPrint(token);
 
   String initialRoute;
 

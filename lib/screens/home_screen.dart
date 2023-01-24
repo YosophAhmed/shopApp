@@ -15,7 +15,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AppCubit()..getHomeData()..getCategoriesData(),
+      create: (context) => AppCubit()..getHomeData()..getCategoriesData()..getFavoritesData(),
       child: BlocConsumer<AppCubit, AppState>(
         listener: (context, state) {},
         builder: (context, state) {
@@ -29,7 +29,7 @@ class HomeScreen extends StatelessWidget {
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 38,
-                  color: Colors.black,
+                  color: defaultColor,
                 ),
                 textAlign: TextAlign.center,
               ),
