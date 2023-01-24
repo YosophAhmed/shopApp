@@ -46,12 +46,12 @@ class ProductsModel {
 
   ProductsModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    id = json['price'];
-    id = json['old_price'];
-    id = json['discount'];
-    id = json['image'];
-    id = json['name'];
-    id = json['in_favorites'];
-    id = json['in_cart'];
+    price = json['price'];
+    oldPrice = json['old_price'];
+    discount = json['discount'];
+    image = json['image'];
+    name = json['name'];
+    isFavourite = json['in_favorites'];
+    inCart = json['in_cart'];
   }
 }
