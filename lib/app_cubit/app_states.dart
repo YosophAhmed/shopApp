@@ -15,3 +15,16 @@ class ErrorHomeDataState extends AppState {
     required this.errorMessage,
   });
 }
+
+class LoadingCategoriesState extends AppState {}
+
+class SuccessCategoriesState extends AppState {}
+
+class ErrorCategoriesState extends AppState {
+  final String errorMessage;
+
+  ErrorCategoriesState({
+    required this.errorMessage,
+  });
+}
+
