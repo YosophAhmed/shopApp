@@ -8,6 +8,7 @@ import 'package:shop_app/screens/onboarding/onboarding_screen.dart';
 import 'package:shop_app/screens/search_screen.dart';
 import 'bloc/bloc_observer.dart';
 import 'constants/colors.dart';
+import 'network/end_points.dart';
 import 'network/remote/dio_helper.dart';
 
 void main() async {
@@ -17,7 +18,7 @@ void main() async {
   await CacheHelper.init();
 
   bool? onBoarding = CacheHelper.getData(key: 'onBoarding');
-  String? token = CacheHelper.getData(key: 'token');
+  token = CacheHelper.getData(key: 'token');
   debugPrint(token);
 
   String initialRoute;

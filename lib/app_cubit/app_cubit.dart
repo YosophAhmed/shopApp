@@ -108,6 +108,8 @@ class AppCubit extends Cubit<AppState> {
       favoritesModel = FavoritesModel.fromJson(value!.data);
       if (!favoritesModel!.status) {
         favourites[productId] = !favourites[productId]!;
+      } else {
+        getFavoritesData();
       }
       emit(SuccessChangeFavoriteState(
         model: favoritesModel!,
@@ -124,9 +126,10 @@ class AppCubit extends Cubit<AppState> {
     emit(LoadingGetFavoriteState());
     DioHelper.getData(
       url: favorites,
-      token: CacheHelper.getData(key: 'token'),
+      token: token,
     ).then((value) {
       getFavoritesModel = GetFavoritesModel.fromJson(value.data);
+      printFullText(text: getFavoritesModel.toString());
       emit(SuccessGetFavoriteState());
     }).catchError((error) {
       emit(ErrorGetFavoriteState(

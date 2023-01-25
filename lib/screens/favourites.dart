@@ -19,7 +19,7 @@ class FavouritesScreen extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         return ConditionalBuilder(
-          condition: cubit.getFavoritesModel != null,
+          condition: state is! LoadingGetFavoriteState,
           builder: (BuildContext context) {
             return FavoriteBuilder(
               model: cubit.getFavoritesModel!,
