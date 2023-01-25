@@ -77,3 +77,21 @@ class ErrorGetUserDataState extends AppState {
     required this.errorMessage,
   });
 }
+
+class LoadingUpdateUserDataState extends AppState {}
+
+class SuccessUpdateUserDataState extends AppState {
+  final LoginModel loginModel;
+
+  SuccessUpdateUserDataState({
+    required this.loginModel,
+  });
+}
+
+class ErrorUpdateUserDataState extends AppState {
+  final String errorMessage;
+
+  ErrorUpdateUserDataState({
+    required this.errorMessage,
+  });
+}

@@ -17,6 +17,7 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var formKey = GlobalKey<FormState>();
     var nameController = TextEditingController();
     var emailController = TextEditingController();
     var phoneController = TextEditingController();
@@ -37,58 +38,72 @@ class SettingsScreen extends StatelessWidget {
               horizontal: 12,
               vertical: 20,
             ),
-            child: Column(
-              children: [
-                CustomTextFormField(
-                  controller: nameController,
-                  keyboardType: TextInputType.name,
-                  hintText: 'Name',
-                  prefix: Icons.person,
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                CustomTextFormField(
-                  controller: emailController,
-                  keyboardType: TextInputType.emailAddress,
-                  hintText: 'Email',
-                  prefix: Icons.email,
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                CustomTextFormField(
-                  controller: phoneController,
-                  keyboardType: TextInputType.phone,
-                  hintText: 'Phone',
-                  prefix: Icons.phone,
-                ),
-                const Spacer(),
-                CustomButton(
-                  label: 'Update Account',
-                  onTap: () {},
-                  color: defaultColor,
-                  height: 50,
-                ),
-                const Spacer(),
-                CustomButton(
-                  label: 'Log Out',
-                  color: defaultColor,
-                  height: 50,
-                  onTap: () {
-                    CacheHelper.removeData(
-                      key: 'token',
-                    ).then((value) {
-                      if (value) {
-                        Navigator.pushReplacementNamed(
-                          context,
-                          LoginScreen.routeName,
+            child: Form(
+              key: formKey,
+              child: Column(
+                children: [
+                  if (state is LoadingUpdateUserDataState)
+                    const LinearProgressIndicator(),
+                  const Spacer(),
+                  CustomTextFormField(
+                    controller: nameController,
+                    keyboardType: TextInputType.name,
+                    hintText: 'Name',
+                    prefix: Icons.person,
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  CustomTextFormField(
+                    controller: emailController,
+                    keyboardType: TextInputType.emailAddress,
+                    hintText: 'Email',
+                    prefix: Icons.email,
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  CustomTextFormField(
+                    controller: phoneController,
+                    keyboardType: TextInputType.phone,
+                    hintText: 'Phone',
+                    prefix: Icons.phone,
+                  ),
+                  const Spacer(),
+                  CustomButton(
+                    onTap: () {
+                      if (formKey.currentState!.validate()) {
+                        cubit.updateUserData(
+                          name: nameController.text,
+                          email: emailController.text,
+                          phone: phoneController.text,
                         );
                       }
-                    });
-                  },
-                ),
-              ],
+                    },
+                    label: 'Update Account',
+                    color: defaultColor,
+                    height: 50,
+                  ),
+                  const Spacer(),
+                  CustomButton(
+                    label: 'Log Out',
+                    color: defaultColor,
+                    height: 50,
+                    onTap: () {
+                      CacheHelper.removeData(
+                        key: 'token',
+                      ).then((value) {
+                        if (value) {
+                          Navigator.pushReplacementNamed(
+                            context,
+                            LoginScreen.routeName,
+                          );
+                        }
+                      });
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
           fallback: (context) => const Center(

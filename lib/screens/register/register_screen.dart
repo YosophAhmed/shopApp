@@ -1,29 +1,34 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shop_app/constants/colors.dart';
-import 'package:shop_app/network/end_points.dart';
-import 'package:shop_app/network/local/cache_helper.dart';
-import 'package:shop_app/screens/home_screen.dart';
-import 'package:shop_app/screens/register/register_screen.dart';
-import 'package:shop_app/screens/login/cubit/cubit.dart';
-import 'package:shop_app/screens/login/cubit/states.dart';
+import 'package:shop_app/screens/login/login_screen.dart';
+import 'package:shop_app/screens/register/cubit/register_states.dart';
 
+import '../../constants/colors.dart';
+import '../../network/end_points.dart';
+import '../../network/local/cache_helper.dart';
 import '../../widgets/show_toast.dart';
+import '../home_screen.dart';
+import 'cubit/register_cubit.dart';
 
-class LoginScreen extends StatelessWidget {
-  static const String routeName = 'LoginScreen';
+class RegisterScreen extends StatelessWidget {
+  static const String routeName = 'RegisterScreen';
 
-
-  const LoginScreen({Key? key}) : super(key: key);
+  const RegisterScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var formKey = GlobalKey<FormState>();
+    var emailController = TextEditingController();
+    var passwordController = TextEditingController();
+    var nameController = TextEditingController();
+    var phoneController = TextEditingController();
+
     return BlocProvider(
-      create: (BuildContext context) => LoginCubit(),
-      child: BlocConsumer<LoginCubit, LoginStates>(
+      create: (BuildContext context) => RegisterCubit(),
+      child: BlocConsumer<RegisterCubit, RegisterStates>(
         listener: (context, state) {
-          if (state is SuccessLoginState) {
+          if (state is SuccessRegisterState) {
             if (state.loginModel.status) {
               showToast(
                 message: state.loginModel.message,
@@ -48,9 +53,6 @@ class LoginScreen extends StatelessWidget {
           }
         },
         builder: (context, state) {
-          var formKey = GlobalKey<FormState>();
-          var emailController = TextEditingController();
-          var passwordController = TextEditingController();
           return Scaffold(
             backgroundColor: Colors.white,
             body: Center(
@@ -63,14 +65,14 @@ class LoginScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'LOGIN',
+                          'Register',
                           style: Theme.of(context)
                               .textTheme
                               .headline4!
                               .copyWith(color: Colors.grey),
                         ),
                         Text(
-                          'login now to browse hot offers',
+                          'register now to browse hot offers',
                           style:
                               Theme.of(context).textTheme.bodyText1!.copyWith(
                                     color: Colors.grey,
@@ -78,6 +80,44 @@ class LoginScreen extends StatelessWidget {
                         ),
                         const SizedBox(
                           height: 30.0,
+                        ),
+                        TextFormField(
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Name is required';
+                            }
+                          },
+                          controller: nameController,
+                          keyboardType: TextInputType.name,
+                          decoration: const InputDecoration(
+                            labelText: 'Name',
+                            prefixIcon: Icon(
+                              Icons.person,
+                            ),
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 15.0,
+                        ),
+                        TextFormField(
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Phone is required';
+                            }
+                          },
+                          controller: phoneController,
+                          keyboardType: TextInputType.phone,
+                          decoration: const InputDecoration(
+                            labelText: 'Phone',
+                            prefixIcon: Icon(
+                              Icons.phone,
+                            ),
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 15.0,
                         ),
                         TextFormField(
                           validator: (value) {
@@ -99,14 +139,6 @@ class LoginScreen extends StatelessWidget {
                           height: 15.0,
                         ),
                         TextFormField(
-                          onFieldSubmitted: (value) {
-                            if (formKey.currentState!.validate()) {
-                              LoginCubit.get(context).userLogin(
-                                email: emailController.text,
-                                password: passwordController.text,
-                              );
-                            }
-                          },
                           validator: (value) {
                             if (value!.isEmpty) {
                               return 'Enter password';
@@ -114,7 +146,7 @@ class LoginScreen extends StatelessWidget {
                           },
                           controller: passwordController,
                           keyboardType: TextInputType.visiblePassword,
-                          obscureText: LoginCubit.get(context).isPassword,
+                          obscureText: RegisterCubit.get(context).isPassword,
                           decoration: InputDecoration(
                             labelText: 'password',
                             prefixIcon: const Icon(
@@ -122,10 +154,10 @@ class LoginScreen extends StatelessWidget {
                             ),
                             suffixIcon: IconButton(
                               onPressed: () {
-                                LoginCubit.get(context).changeSuffix();
+                                RegisterCubit.get(context).changeSuffix();
                               },
                               icon: Icon(
-                                LoginCubit.get(context).suffix,
+                                RegisterCubit.get(context).suffix,
                               ),
                             ),
                             border: const OutlineInputBorder(),
@@ -135,7 +167,7 @@ class LoginScreen extends StatelessWidget {
                           height: 30.0,
                         ),
                         ConditionalBuilder(
-                          condition: state is! LoadingLoginState,
+                          condition: state is! LoadingRegisterState,
                           builder: (context) => Row(
                             children: [
                               Expanded(
@@ -145,15 +177,17 @@ class LoginScreen extends StatelessWidget {
                                   ),
                                   child: TextButton(
                                     onPressed: () {
-                                      if (formKey.currentState!.validate()) {
-                                        LoginCubit.get(context).userLogin(
+                                      if(formKey.currentState!.validate()) {
+                                        RegisterCubit.get(context).userRegister(
                                           email: emailController.text,
                                           password: passwordController.text,
+                                          phone: phoneController.text,
+                                          name: nameController.text,
                                         );
                                       }
                                     },
                                     child: const Text(
-                                      'Login',
+                                      'Register',
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 20.0,
@@ -175,18 +209,17 @@ class LoginScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             const Text(
-                              'Don\'t have an account?',
+                              'You have an account?',
                             ),
                             TextButton(
                               onPressed: () {
-                                Navigator.pushNamedAndRemoveUntil(
+                                Navigator.pushReplacementNamed(
                                   context,
-                                  RegisterScreen.routeName,
-                                  (route) => false,
+                                  LoginScreen.routeName,
                                 );
                               },
                               child: const Text(
-                                'Register Now',
+                                'Login Now',
                               ),
                             ),
                           ],

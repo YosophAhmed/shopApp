@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_app/app_cubit/app_cubit.dart';
 import 'package:shop_app/app_cubit/app_states.dart';
-import 'package:shop_app/screens/search_screen.dart';
+import 'package:shop_app/screens/search/search_screen.dart';
 import 'package:shop_app/widgets/custom_search_icon.dart';
 
 import '../constants/colors.dart';

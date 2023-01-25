@@ -3,9 +3,9 @@ import 'package:shop_app/network/local/cache_helper.dart';
 import 'package:shop_app/screens/login/login_screen.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-import '../../constants/colors.dart';
-import '../../models/onboarding.dart';
-import '../../widgets/build_boarding_item.dart';
+import '../constants/colors.dart';
+import '../models/onboarding.dart';
+import '../widgets/build_boarding_item.dart';
 
 class OnBoardingScreen extends StatefulWidget {
   static const String routeName = 'OnBoardingScreen';
