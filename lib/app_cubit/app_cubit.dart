@@ -4,6 +4,7 @@ import 'package:shop_app/app_cubit/app_states.dart';
 import 'package:shop_app/models/categories_model.dart';
 import 'package:shop_app/models/get_favorites_model.dart';
 import 'package:shop_app/models/home_model.dart';
+import 'package:shop_app/models/login_model.dart';
 import 'package:shop_app/network/remote/dio_helper.dart';
 import 'package:shop_app/screens/categories.dart';
 import 'package:shop_app/screens/favourites.dart';
@@ -129,7 +130,6 @@ class AppCubit extends Cubit<AppState> {
       token: token,
     ).then((value) {
       getFavoritesModel = GetFavoritesModel.fromJson(value.data);
-      printFullText(text: getFavoritesModel.toString());
       emit(SuccessGetFavoriteState());
     }).catchError((error) {
       emit(ErrorGetFavoriteState(
@@ -137,4 +137,24 @@ class AppCubit extends Cubit<AppState> {
       ));
     });
   }
+
+  LoginModel? loginModel;
+
+  Future<void> getUserData() async {
+    emit(LoadingGetUserDataState());
+    DioHelper.getData(
+      url: profile,
+      token: token,
+    ).then((value) {
+      loginModel = LoginModel.fromJson(value.data);
+      emit(SuccessGetUserDataState(
+        loginModel: loginModel!,
+      ));
+    }).catchError((error) {
+      emit(ErrorGetUserDataState(
+        errorMessage: error.toString(),
+      ));
+    });
+  }
+
 }

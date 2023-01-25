@@ -15,7 +15,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AppCubit()..getHomeData()..getCategoriesData()..getFavoritesData(),
+      create: (context) => AppCubit()..getHomeData()..getCategoriesData()..getFavoritesData()..getUserData(),
       child: BlocConsumer<AppCubit, AppState>(
         listener: (context, state) {},
         builder: (context, state) {
@@ -87,23 +87,4 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-// TextButton(
-// onPressed: () {
-// CacheHelper.removeData(
-// key: 'token',
-// ).then((value) {
-// if (value) {
-// Navigator.pushReplacementNamed(
-// context,
-// LoginScreen.routeName,
-// );
-// }
-// });
-// },
-// child: const Text(
-// 'Sign Out',
-// style: TextStyle(
-// fontSize: 24,
-// ),
-// ),
-// )
+

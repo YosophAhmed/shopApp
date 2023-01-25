@@ -1,4 +1,5 @@
 import 'package:shop_app/models/favorites_model.dart';
+import 'package:shop_app/models/login_model.dart';
 
 abstract class AppState {}
 
@@ -55,6 +56,24 @@ class ErrorGetFavoriteState extends AppState {
   final String errorMessage;
 
   ErrorGetFavoriteState({
+    required this.errorMessage,
+  });
+}
+
+class LoadingGetUserDataState extends AppState {}
+
+class SuccessGetUserDataState extends AppState {
+  final LoginModel loginModel;
+
+  SuccessGetUserDataState({
+    required this.loginModel,
+  });
+}
+
+class ErrorGetUserDataState extends AppState {
+  final String errorMessage;
+
+  ErrorGetUserDataState({
     required this.errorMessage,
   });
 }

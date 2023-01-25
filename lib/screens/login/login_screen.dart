@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shop_app/constants/colors.dart';
+import 'package:shop_app/network/end_points.dart';
 import 'package:shop_app/network/local/cache_helper.dart';
 import 'package:shop_app/screens/home_screen.dart';
 import 'package:shop_app/screens/Register/register_screen.dart';
@@ -35,12 +36,11 @@ class LoginScreen extends StatelessWidget {
                 key: 'token',
                 value: state.loginModel.data!.token,
               ).then((value) {
-                return {
-                    Navigator.pushReplacementNamed(
-                      context,
-                      HomeScreen.routeName,
-                    )
-                  };
+                token = state.loginModel.data!.token;
+                Navigator.pushReplacementNamed(
+                  context,
+                  HomeScreen.routeName,
+                );
               });
             } else {
               showToast(
